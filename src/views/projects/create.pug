@@ -1,0 +1,57 @@
+html
+  head
+    title Create Project
+    style
+      include style.css
+
+  body
+    h1 List
+    table
+      tr
+        th Name
+        th Sonarqube Project Key
+        th Sonarqube Token
+        th Slack Channel Id
+        th Wehook Link
+        th
+      each project in projects
+        tr
+          td= project.name
+          td= project.projectKey
+          td= project.sonarqubeToken
+          td= project.slackChannelId
+          td= `/sonarqube/webhook/${project.uuid}`
+          td
+            form(action=`/projects/delete/${project.id}`, method='POST')
+              input(type='hidden', name='_method', value='DELETE')
+              button(type='submit') Delete
+
+
+    h1 Create Project
+
+    form(action="/projects/store", method="post")
+      label(for="Name") Name:
+      input(type="text", name="name", id="name")
+
+      br
+      br
+
+      label(for="projectKey") Sonarqube Project Key:
+      input(type="text", name="projectKey", id="projectKey")
+
+      br
+      br
+
+      label(for="sonarqubeToken") Sonarqube Token:
+      input(type="text", name="sonarqubeToken", id="sonarqubeToken")
+
+      br
+      br
+
+      label(for="slackChannelId") Slack Channel Id:
+      input(type="text", name="slackChannelId", id="slackChannelId")
+
+      br
+      br
+
+      input(type="submit", value="Submit")

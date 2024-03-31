@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  app:
+    image: node:latest
+    volumes:
+      - ./:/app
+    ports:
+      - 3000:3000
+    tty: true
+    working_dir: /app
+    networks:
+      - sonarqube-notification-net
+      - sonarqube_sonarqube-net
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    networks:
+      - sonarqube-notification-net
+
+
+networks:
+  sonarqube-notification-net:
+    driver: bridge
+  sonarqube_sonarqube-net:
+    external:
+      name: sonarqube_sonarqube-net
+volumes:
+  mongodb_data:
+    driver: local
